@@ -6,7 +6,7 @@ def input_students
   name = gets.chomp
 
   while !name.empty? do
-    students << {name: name, cohort: :november}
+    students << {name: name, cohort: :November, country: :England, DOB: "28/07/1968"}
     puts "Now we have #{students.count} students"
     name = gets.chomp
   end
@@ -27,13 +27,17 @@ def print(students, letter)
   unless letter.empty?
     puts "Showing Students starting with: #{letter}"
   end
-  puts letter
-  students.each.with_index(1) do |student, index|
+  x = 1
+  while x <= students.length
+
+    student = students[x-1]
+  # students.each.with_index(1) do |student, index|
     if letter == student[:name].chr || letter.empty?
       if student[:name].length < 12
-        puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)"
+        puts "#{x}: #{student[:name].center(20)} (#{student[:cohort].to_s.center(20)} cohort) Country of Birth: #{student[:country].to_s.center(20)} DOB: #{student[:DOB].center(12)}"
       end
     end
+  x += 1
   end
 end
 
