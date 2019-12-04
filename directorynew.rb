@@ -6,7 +6,12 @@ def input_students
   name = gets.chomp
 
   while !name.empty? do
-    students << {name: name, cohort: :November, country: :England, DOB: "28/07/1968"}
+    puts "Now enter cohort:"
+    cohort = gets.chomp.to_sym
+    if cohort.empty?
+      cohort = :November
+    end
+    students << {name: name, cohort: cohort, country: :England, DOB: "28/07/1968"}
     puts "Now we have #{students.count} students"
     name = gets.chomp
   end
