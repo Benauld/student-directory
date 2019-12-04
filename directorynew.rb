@@ -30,7 +30,9 @@ def print(students, letter)
   puts letter
   students.each.with_index(1) do |student, index|
     if letter == student[:name].chr || letter.empty?
-      puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)"
+      if student[:name].length < 12
+        puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)"
+      end
     end
   end
 end
