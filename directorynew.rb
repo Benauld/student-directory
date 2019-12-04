@@ -13,13 +13,26 @@ def input_students
   return students
 end
 
+def input_letter
+  puts "Show students starting with a: (leave blank for all)"
+  start_letter = gets.chomp
+end
+
 def print_header
   puts "The students of Villains Academy"
   puts "-------------"
 end
 
-def print(students)
-  students.each.with_index(1) { |student, index| puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)"}
+def print(students, letter)
+  unless letter.empty?
+    puts "Showing Students starting with: #{letter}"
+  end
+  puts letter
+  students.each.with_index(1) do |student, index|
+    if letter == student[:name].chr || letter.empty?
+      puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)"
+    end
+  end
 end
 
 def print_footer(names)
@@ -27,6 +40,7 @@ def print_footer(names)
 end
 
 students = input_students
+start_letter = input_letter
 print_header
-print(students)
+print(students, start_letter)
 print_footer(students)
