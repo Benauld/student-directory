@@ -4,7 +4,7 @@ def input_students
   # create an empty array
   @students = []
   # get the first name
-  name = gets.chomp
+  name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
   # add the student hash to the array
@@ -15,12 +15,23 @@ def input_students
   end
 end
 
-def load_students
-  file= File.open("students.csv", "r")
+def try_load_students
+  filename = ARGV.first # argument from the command line
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+     puts "Loaded #{@students.count} from #{filename}"
+  else # Doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit program
+  end
+end
+
+
+def load_students(filename = "students.csv")
+  file= File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
-    puts name
-    puts cohort
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
@@ -58,7 +69,7 @@ def interactive_menu
     print_menu
     # 2. read the input and put it in to a variable
     # 3. do what the user has asked
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
