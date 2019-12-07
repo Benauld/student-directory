@@ -2,7 +2,7 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # create an empty array
-  @students = []
+
   # get the first name
   name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
@@ -15,9 +15,23 @@ def input_students
   end
 end
 
+def load_students(filename = "students.csv")
+
+  file= File.open(filename, "r")
+  file.readlines.each do |line|
+    name, cohort = line.chomp.split(',')
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  puts "#{@students.length} students were loaded from the file"
+  file.close
+end
+
 def try_load_students
   filename = ARGV.first # argument from the command line
-  return if filename.nil?
+  if filename.nil?
+    filename = "students.csv"
+  end
+
   if File.exists?(filename)
     load_students(filename)
      puts "Loaded #{@students.count} from #{filename}"
@@ -28,14 +42,7 @@ def try_load_students
 end
 
 
-def load_students(filename = "students.csv")
-  file= File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
-  end
-  file.close
-end
+
 
 
 def save_students
@@ -45,7 +52,8 @@ def save_students
     csv_line = student_data.join(",")
     file.puts csv_line
   end
-  file.close
+  puts "#{@students.length} students were saved to #{file}"
+  # file.close
 end
 
 def print_header
@@ -98,13 +106,12 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      load_students
+      try_load_students
     when "9"
       exit
     else
       puts "I don't recognise that selection. Try again"
   end
 end
-
-
+@students = []
 interactive_menu
